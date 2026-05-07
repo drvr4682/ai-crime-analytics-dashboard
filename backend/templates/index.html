@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrimeScope — AI Crime Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<aside class="sidebar">
+  <div class="logo">
+    <span class="logo-icon">◈</span>
+    <span class="logo-text">CrimeScope</span>
+  </div>
+  <nav class="nav">
+    <a href="/" class="nav-link {% if not show_dashboard %}active{% endif %}">
+      <span class="nav-icon">⬡</span> Upload
+    </a>
+    <a href="/dashboard" class="nav-link {% if show_dashboard %}active{% endif %}">
+      <span class="nav-icon">⬡</span> Dashboard
+    </a>
+    {% if show_dashboard %}
+    <a href="/download" class="nav-link">
+      <span class="nav-icon">⬡</span> Download Report
+    </a>
+    {% endif %}
+  </nav>
+  <div class="sidebar-footer">
+    <p>AI-Powered</p>
+    <p>Crime Analysis v1.0</p>
+  </div>
+</aside>
+
+<!-- ═══════════════════ MAIN CONTENT ═══════════════════ -->
+<main class="main">
+
+  <!-- ── TOP NAVBAR ── -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1 class="page-title">
+        {% if show_dashboard %}Analytics Dashboard{% else %}Upload Dataset{% endif %}
+      </h1>
+    </div>
+    <div class="topbar-right">
+      <span class="badge">LIVE</span>
+      <span class="topbar-meta">India Crime Dataset</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════ UPLOAD PAGE ═══════════════ -->
+  {% if not show_dashboard %}
+  <section class="upload-section">
+    <div class="upload-card">
+      <div class="upload-icon">⬡</div>
+      <h2>Upload Crime Dataset</h2>
+      <p>Upload any <strong>.CSV</strong> crime dataset — or click Analyse to use the built-in India Crime Dataset (40 000+ records).</p>
+
+      <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <div class="dropzone" id="dropzone">
+          <input type="file" name="file" id="fileInput" accept=".csv" />
+          <div class="dropzone-inner">
+            <span class="drop-icon">↑</span>
+            <p id="dropText">Drag & drop your CSV here, or <u>click to browse</u></p>
+            <p class="drop-hint">Max size: 50 MB · CSV only</p>
+          </div>
+        </div>
+        <div class="upload-actions">
+          <button type="submit" class="btn btn-primary" id="analyseBtn">
+            <span>Analyse Dataset</span>
+          </button>
+          <button type="submit" formaction="/upload" class="btn btn-ghost" id="sampleBtn">
+            Use Sample Dataset
+          </button>
+        </div>
+      </form>
+
+      <div class="upload-progress" id="progressWrap" style="display:none">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <p id="progressLabel">Processing…</p>
+      </div>
+    </div>
+
+    <!-- Feature list -->
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feat-icon">◈</span>
+        <h3>Auto Cleaning</h3>
+        <p>Removes duplicates, fills nulls, parses dates automatically.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">◈</span>
+        <h3>5 Chart Types</h3>
+        <p>Bar, Pie, Heatmap, Line &amp; Scatter plots generated instantly.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">◈</span>
+        <h3>ML Prediction</h3>
+        <p>Linear Regression forecasts future crime trends by year.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">◈</span>
+        <h3>Report Export</h3>
+        <p>Download full analysis summary as a text report.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════ DASHBOARD PAGE ═══════════════ -->
+  {% else %}
+
+  <!-- ── KPI CARDS ── -->
+  <section class="kpi-grid">
+    <div class="kpi-card" style="--accent:#00d4aa">
+      <div class="kpi-label">Total Cases</div>
+      <div class="kpi-value">{{ "{:,}".format(summary.total_cases) }}</div>
+      <div class="kpi-sub">Rows in dataset</div>
+    </div>
+    <div class="kpi-card" style="--accent:#06d6a0">
+      <div class="kpi-label">Closed Cases</div>
+      <div class="kpi-value">{{ "{:,}".format(summary.closed_cases) }}</div>
+      <div class="kpi-sub">Closure rate: {{ summary.closure_rate }}</div>
+    </div>
+    <div class="kpi-card" style="--accent:#ffd166">
+      <div class="kpi-label">Open Cases</div>
+      <div class="kpi-value">{{ "{:,}".format(summary.open_cases) }}</div>
+      <div class="kpi-sub">Pending investigation</div>
+    </div>
+    <div class="kpi-card" style="--accent:#ff6b6b">
+      <div class="kpi-label">Top Crime City</div>
+      <div class="kpi-value city-val">{{ summary.top_city }}</div>
+      <div class="kpi-sub">Highest incident count</div>
+    </div>
+    <div class="kpi-card" style="--accent:#c77dff">
+      <div class="kpi-label">Most Used Weapon</div>
+      <div class="kpi-value weapon-val">{{ summary.top_weapon }}</div>
+      <div class="kpi-sub">Across all incidents</div>
+    </div>
+  </section>
+
+  <!-- ── CHART GRID ── -->
+  <section class="charts-section">
+    <h2 class="section-title">Visual Analytics</h2>
+    <div class="charts-grid">
+
+      {% if graphs.bar %}
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <span class="chart-tag">BAR CHART</span>
+          <h3>Top 10 Cities by Crime Count</h3>
+        </div>
+        <img src="{{ url_for('static', filename='graphs/' ~ graphs.bar) }}" alt="Bar Chart" loading="lazy" />
+      </div>
+      {% endif %}
+
+      {% if graphs.pie %}
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-tag">PIE CHART</span>
+          <h3>Crime Domain Distribution</h3>
+        </div>
+        <img src="{{ url_for('static', filename='graphs/' ~ graphs.pie) }}" alt="Pie Chart" loading="lazy" />
+      </div>
+      {% endif %}
+
+      {% if graphs.heatmap %}
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <span class="chart-tag">HEATMAP</span>
+          <h3>Monthly Crime Frequency by City</h3>
+        </div>
+        <img src="{{ url_for('static', filename='graphs/' ~ graphs.heatmap) }}" alt="Heatmap" loading="lazy" />
+      </div>
+      {% endif %}
+
+      {% if graphs.line %}
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-tag">LINE CHART</span>
+          <h3>Crime Trend Over the Years</h3>
+        </div>
+        <img src="{{ url_for('static', filename='graphs/' ~ graphs.line) }}" alt="Line Chart" loading="lazy" />
+      </div>
+      {% endif %}
+
+      {% if graphs.scatter %}
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-tag">SCATTER PLOT</span>
+          <h3>Victim Age vs Police Deployed</h3>
+        </div>
+        <img src="{{ url_for('static', filename='graphs/' ~ graphs.scatter) }}" alt="Scatter Plot" loading="lazy" />
+      </div>
+      {% endif %}
+
+    </div>
+  </section>
+
+  <!-- ── ML PREDICTION ── -->
+  {% if ml and ml.graph %}
+  <section class="prediction-section">
+    <h2 class="section-title">ML Prediction — Future Crime Forecast</h2>
+    <div class="prediction-card">
+      <div class="prediction-meta">
+        <div class="meta-item">
+          <span class="meta-label">Algorithm</span>
+          <span class="meta-val">Linear Regression</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">R² Score</span>
+          <span class="meta-val accent">{{ ml.r2_score }}</span>
+        </div>
+        {% if ml.predictions %}
+        <div class="meta-item">
+          <span class="meta-label">Forecast Horizon</span>
+          <span class="meta-val">{{ ml.predictions|length }} years</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <img src="{{ url_for('static', filename='graphs/' ~ ml.graph) }}" alt="ML Prediction" loading="lazy" />
+
+      {% if ml.predictions %}
+      <div class="pred-table-wrap">
+        <table class="pred-table">
+          <thead><tr><th>Year</th><th>Predicted Cases</th><th>Trend</th></tr></thead>
+          <tbody>
+            {% set prev = 0 %}
+            {% for yr, cnt in ml.predictions.items() %}
+            <tr>
+              <td>{{ yr }}</td>
+              <td class="accent">{{ "{:,}".format(cnt) }}</td>
+              <td>
+                {% if loop.first %}—
+                {% elif cnt > prev %}↑ Up
+                {% elif cnt < prev %}↓ Down
+                {% else %}→ Stable{% endif %}
+              </td>
+            </tr>
+            {% set prev = cnt %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ── DOWNLOAD ── -->
+  <div class="download-bar">
+    <a href="/download" class="btn btn-primary">⬇ Download Full Report</a>
+    <a href="/" class="btn btn-ghost">↑ Upload New Dataset</a>
+  </div>
+
+  {% endif %} {# end show_dashboard #}
+
+</main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

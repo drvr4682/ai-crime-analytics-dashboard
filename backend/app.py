@@ -35,6 +35,11 @@ from ml.random_forest_model     import train_random_forest, predict_crime_catego
 from ml.kmeans_model            import run_kmeans_hotspots
 from ml.isolation_forest_model  import run_isolation_forest_anomalies
 
+# ── Phase 5 dynamic intelligence components ────────────────────────────────────
+from analysis.insights_engine import generate_dashboard_insights
+from analysis.alert_engine    import generate_dashboard_alerts
+
+
 # ── Flask init ─────────────────────────────────────────────────────────────────
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
@@ -489,6 +494,70 @@ def api_ml_predict_category():
         return jsonify(res)
     except Exception as e:
         return jsonify({"error": f"AI Inference execution failed: {e}"}), 400
+
+
+# ── Upgraded REST APIs: Phase 5 Dynamic SOC Intelligence Feeds ────────────────
+
+@app.route("/api/insights")
+def api_insights():
+    if not ensure_session_data():
+        return jsonify({"error": "No database context loaded"}), 400
+        
+    cache = get_cached_data(session["dataset_path"])
+    df = cache["df"]
+    
+    # Ingest dynamic dashboard queries
+    year = request.args.get("year", "All")
+    city = request.args.get("city", "All")
+    crime_type = request.args.get("crime_type", "All")
+    
+    # Run filters reactively
+    filtered_df = df
+    if year != "All":
+        try:
+            filtered_df = filtered_df[filtered_df["Year"] == int(year)]
+        except ValueError:
+            pass
+            
+    if city != "All":
+        filtered_df = filtered_df[filtered_df["City"].str.lower() == city.lower()]
+        
+    if crime_type != "All":
+        filtered_df = filtered_df[filtered_df["Crime Description"].str.lower() == crime_type.lower()]
+        
+    insights = generate_dashboard_insights(filtered_df)
+    return jsonify({"insights": insights})
+
+
+@app.route("/api/alerts")
+def api_alerts():
+    if not ensure_session_data():
+        return jsonify({"error": "No database context loaded"}), 400
+        
+    cache = get_cached_data(session["dataset_path"])
+    df = cache["df"]
+    
+    # Ingest dynamic dashboard queries
+    year = request.args.get("year", "All")
+    city = request.args.get("city", "All")
+    crime_type = request.args.get("crime_type", "All")
+    
+    # Run filters reactively
+    filtered_df = df
+    if year != "All":
+        try:
+            filtered_df = filtered_df[filtered_df["Year"] == int(year)]
+        except ValueError:
+            pass
+            
+    if city != "All":
+        filtered_df = filtered_df[filtered_df["City"].str.lower() == city.lower()]
+        
+    if crime_type != "All":
+        filtered_df = filtered_df[filtered_df["Crime Description"].str.lower() == crime_type.lower()]
+        
+    alerts = generate_dashboard_alerts(filtered_df)
+    return jsonify({"alerts": alerts})
 
 
 # ── Route: Download Report ────────────────────────────────────────────────────

@@ -271,6 +271,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       await window.CrimeScopeML.init();
     }
 
+    // Phase 5 Upgrade: Sync AI Insights & Live Alerts feeds reactively
+    if (window.CrimeScopeInsights && typeof window.CrimeScopeInsights.fetchAndRender === 'function') {
+      appendTerminalLog("Synthesizing dynamic AI natural-language insights...", "info");
+      await window.CrimeScopeInsights.fetchAndRender(year, city, crimeType);
+    }
+    if (window.CrimeScopeAlerts && typeof window.CrimeScopeAlerts.fetchAndRender === 'function') {
+      appendTerminalLog("Synthesizing real-time SOC threat intel alerts...", "info");
+      await window.CrimeScopeAlerts.fetchAndRender(year, city, crimeType);
+    }
+
     appendTerminalLog(`Successfully synthesized telemetry feeds. Counted ${totalRecords.toLocaleString()} active logs.`, "success");
     setLoadingState(false);
   };

@@ -295,6 +295,14 @@
         </div>
       </section>
       
+      <!-- ═══════════════════ UPGRADED: QUICK INSIGHTS GRID ═══════════════════ -->
+      <section class="insights-section" id="quick-insights-section">
+        <h2 class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Neural Synthesized Insights</h2>
+        <div class="insights-grid five-cols" id="quickInsightsGrid">
+          <!-- Injected dynamically via insights.js -->
+        </div>
+      </section>
+      
       <!-- ═══════════════════ STEP 5: CHARTS GRID ═══════════════════ -->
       <section class="charts-section">
         <h2 class="section-title"><i class="fa-solid fa-circle-nodes"></i> Forensic Visual Analytics</h2>
@@ -726,23 +734,22 @@
         </div>
       </section>
       
-      <!-- ═══════════════════ ALERTS & SYSTEM STATE LOGS ═══════════════════ -->
+      <!-- ═══════════════════ UPGRADED: CYBERSECURITY SOC LIVE ALERTS FEED ═══════════════════ -->
       <section class="alerts-section" id="alerts">
-        <h2 class="section-title"><i class="fa-solid fa-terminal"></i> Forensic Active Alerts Log</h2>
-        <div class="alerts-panel-card glass-panel card-glow-cyan">
-          <div class="terminal-header">
-            <div class="terminal-dot red"></div>
-            <div class="terminal-dot yellow"></div>
-            <div class="terminal-dot green"></div>
-            <span class="terminal-title">cs_intelligence_feed.sh</span>
+        <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> Security Operations Command (SOC) Alerts Feed</h2>
+        <div class="soc-alerts-panel">
+          <div class="soc-alerts-header">
+            <div class="soc-header-left">
+              <div class="soc-title-pulse"></div>
+              <h3>Live Threat Intelligence Stream</h3>
+            </div>
+            <div class="soc-header-right">
+              <span>SECURE GATEWAY: <strong class="text-glow-cyan">ACTIVE</strong></span>
+              <span class="soc-status-badge">MONITORING</span>
+            </div>
           </div>
-          <div class="terminal-body">
-            <p class="t-line"><span class="t-time">[22:26:27]</span> <span class="t-success">[OK]</span> Initialized Neural Network Threat Engine.</p>
-            <p class="t-line"><span class="t-time">[22:26:30]</span> <span class="t-info">[INFO]</span> Loaded crime database files. Counted <span class="text-glow-cyan">{{ summary.total_cases }}</span> active logs.</p>
-            <p class="t-line"><span class="t-time">[22:26:31]</span> <span class="t-info">[INFO]</span> Isolated urban hotspot in: <span class="text-glow-rose">{{ summary.top_city }}</span>.</p>
-            <p class="t-line"><span class="t-time">[22:26:32]</span> <span class="t-warning">[WARN]</span> Lethality threshold exceedance identified using <strong>{{ summary.top_weapon }}</strong>.</p>
-            <p class="t-line"><span class="t-time">[22:26:33]</span> <span class="t-success">[OK]</span> Scikit-Learn Model calibrated. R² Coefficient computed: <span class="text-glow-purple">{% if ml %}{{ ml.r2_score }}{% else %}N/A{% endif %}</span>.</p>
-            <p class="t-line blink-line"><span class="t-time">[SYS]</span> awaiting input command...</p>
+          <div class="soc-alerts-feed" id="socAlertsFeed">
+            <!-- Outliers/Alerts injected dynamically via alerts.js -->
           </div>
         </div>
       </section>
@@ -770,6 +777,8 @@
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 <script src="{{ url_for('static', filename='js/filters.js') }}"></script>
+<script src="{{ url_for('static', filename='js/insights.js') }}"></script>
+<script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

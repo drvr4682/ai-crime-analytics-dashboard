@@ -100,28 +100,31 @@
       <div class="topbar-right">
         {% if show_dashboard %}
         <div class="filters-row">
-          <!-- Current Year Dropdown -->
+          <!-- Dynamic Year Dropdown -->
           <div class="filter-wrapper">
             <i class="fa-regular fa-calendar filter-icon"></i>
             <select class="filter-dropdown" id="yearFilter">
-              <option value="all">Year: All</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
+              <option value="All">Year: All</option>
             </select>
           </div>
-          <!-- City Filter Dropdown -->
+          <!-- Dynamic City Filter Dropdown -->
           <div class="filter-wrapper">
             <i class="fa-solid fa-location-dot filter-icon"></i>
             <select class="filter-dropdown" id="cityFilter">
-              <option value="all">City: All</option>
-              <option value="delhi">Delhi</option>
-              <option value="mumbai">Mumbai</option>
-              <option value="chennai">Chennai</option>
-              <option value="bangalore">Bangalore</option>
+              <option value="All">City: All</option>
             </select>
           </div>
+          <!-- Dynamic Crime Type Filter Dropdown -->
+          <div class="filter-wrapper">
+            <i class="fa-solid fa-triangle-exclamation filter-icon"></i>
+            <select class="filter-dropdown" id="crimeTypeFilter">
+              <option value="All">Type: All</option>
+            </select>
+          </div>
+          <!-- Reset Filters Button -->
+          <button id="resetFilters" class="btn-reset" title="Reset all filters">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
           <!-- Date Range Display -->
           <div class="date-range-display">
             <span class="range-lbl">RANGE:</span>
@@ -130,6 +133,12 @@
         </div>
         {% endif %}
         
+        <!-- Live Loading Spinner -->
+        <div id="filterSpinner" class="filter-spinner-badge" style="display: none;">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>SYNTHESIZING...</span>
+        </div>
+
         <div class="profile-placeholder">
           <div class="avatar-glow">
             <i class="fa-solid fa-user-shield"></i>
@@ -407,12 +416,148 @@
         </div>
       </section>
       
-      <!-- ═══════════════════ STEP 5: ML PREDICTION SECTION ═══════════════════ -->
+      <!-- ═══════════════════ UPGRADED: AI Prediction & Intelligence Command Center ═══════════════════ -->
       {% if ml %}
       <section class="prediction-section" id="predictions">
-        <h2 class="section-title"><i class="fa-solid fa-brain"></i> Machine Learning Crime Inferences</h2>
+        <h2 class="section-title"><i class="fa-solid fa-brain"></i> AI Prediction & Intelligence Command Center</h2>
         
-        <div class="prediction-card glass-panel card-glow-purple">
+        <!-- Grid: Model Accuracy Panel (Left) & Dynamic Inference Predictor (Right) -->
+        <div class="prediction-grid">
+          
+          <!-- Column 1: Model Evaluation & Performance metrics (Glass Panel) -->
+          <div class="glass-panel card-glow-cyan accuracy-panel">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-square-poll-vertical"></i> Neural Model Accuracy Matrix</h3>
+            
+            <!-- Metric 1: Linear Regression R2 -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Crime Count Forecasting (Linear Regression R²)</span>
+                <span class="metric-bar-val" id="val-lr-r2">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow cyan" id="fill-lr-r2" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <!-- Metric 2: Random Forest F1 -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Crime Category Predictor (Random Forest F1-Score)</span>
+                <span class="metric-bar-val" id="val-rf-f1">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow purple" id="fill-rf-f1" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <!-- Metric 3: KMeans Silhouette -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Hotspot Cluster Cohesion (KMeans Silhouette)</span>
+                <span class="metric-bar-val" id="val-km-sil">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow emerald" id="fill-km-sil" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <!-- Metric 4: Isolation Forest Anomaly Percentage -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Incident Anomaly Rate (Isolation Forest Outliers)</span>
+                <span class="metric-bar-val" id="val-iso-rate">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow yellow" id="fill-iso-rate" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Column 2: Interactive Crime Predictor (Glass Panel) -->
+          <div class="glass-panel card-glow-purple predictor-form-panel">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-wand-magic-sparkles"></i> Dynamic Category Predictor</h3>
+            
+            <form id="aiPredictorForm">
+              <!-- Selectors Row 1: City & Month -->
+              <div class="form-row-2col">
+                <div class="pred-form-group">
+                  <label for="predCity">City Target</label>
+                  <select class="pred-select" id="predCity" required>
+                    <option value="" disabled selected>Select city</option>
+                  </select>
+                </div>
+                <div class="pred-form-group">
+                  <label for="predMonth">Month of Offense</label>
+                  <select class="pred-select" id="predMonth" required>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Selectors Row 2: Victim Age & Gender -->
+              <div class="form-row-2col">
+                <div class="pred-form-group">
+                  <label for="predAge">Victim Age</label>
+                  <input class="pred-input" type="number" id="predAge" min="1" max="110" value="28" required />
+                </div>
+                <div class="pred-form-group">
+                  <label for="predGender">Victim Gender</label>
+                  <select class="pred-select" id="predGender" required>
+                    <option value="M">Male (M)</option>
+                    <option value="F">Female (F)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Selector Row 3: Weapon Used -->
+              <div class="pred-form-group" style="margin-bottom: 12px;">
+                <label for="predWeapon">Weapon Used</label>
+                <select class="pred-select" id="predWeapon" required>
+                  <option value="" disabled selected>Select weapon</option>
+                </select>
+              </div>
+              
+              <button class="btn btn-inference btn-glow" type="submit" id="inferenceBtn">
+                <i class="fa-solid fa-bolt"></i> Run AI Inference
+              </button>
+            </form>
+            
+            <!-- Interactive Result Display Box -->
+            <div class="inference-result-box" id="inferenceResultBox" style="margin-top: 10px;">
+              <div class="inference-placeholder-msg" id="inferencePlaceholder">
+                <i class="fa-solid fa-brain fa-fade"></i>
+                <p>Input variables and trigger inference above to evaluate predictive target probability.</p>
+              </div>
+              <div class="inference-output" id="inferenceOutput" style="display:none;">
+                <h4>Predicted Offense Type</h4>
+                <div class="pred-value-highlight" id="predCrimeValue">THEFT</div>
+                <div class="metric-bar-header" style="margin-bottom: 4px;">
+                  <span class="metric-bar-lbl" style="font-size:0.68rem;">Predictive Accuracy Confidence</span>
+                  <span class="metric-bar-val" id="predConfidenceVal">0%</span>
+                </div>
+                <div class="progress-track" style="height: 5px;">
+                  <div class="progress-fill-glow purple" id="predConfidenceFill" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <!-- Row 2: Prediction Trend Forecast Chart & Hotspots Risk matrix -->
+        <div class="prediction-card glass-panel card-glow-purple" style="margin-top: 24px;">
           <div class="prediction-grid">
             
             <div class="pred-chart-panel">
@@ -433,7 +578,7 @@
                 </div>
                 <div class="meta-item">
                   <span class="meta-label">Model Accuracy (R² Score)</span>
-                  <span class="meta-val text-glow-purple">{{ ml.r2_score }}</span>
+                  <span class="meta-val text-glow-purple" id="lr-r2-meta-val">{{ ml.r2_score }}</span>
                 </div>
                 {% if ml.predictions %}
                 <div class="meta-item">
@@ -446,7 +591,7 @@
               {% if ml.predictions %}
               <div class="pred-table-wrap">
                 <h4 class="table-headline">Index Projections</h4>
-                <table class="pred-table">
+                <table class="pred-table" id="projectionsTable">
                   <thead>
                     <tr>
                       <th>Forecast Year</th>
@@ -482,6 +627,58 @@
             
           </div>
         </div>
+
+        <!-- Row 3: Hotspots Columns (KMeans) & Threat Anomalies alerts (Isolation Forest) -->
+        <div class="prediction-grid" style="margin-top: 24px;">
+          
+          <!-- KMeans clustered hotspots -->
+          <div class="glass-panel card-glow-yellow hotspots-grid-section" style="padding: 20px;">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-fire"></i> Dynamic Hotspot Risk Cluster (KMeans)</h3>
+            <div class="hotspots-flex-layout" id="hotspotsLayout">
+              
+              <!-- High Risk cities -->
+              <div class="hotspots-risk-col">
+                <div class="hotspots-col-header high">
+                  <i class="fa-solid fa-triangle-exclamation"></i> CRITICAL INDEX
+                </div>
+                <div class="hotspots-cards-wrap" id="hotspotsHigh">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+              
+              <!-- Medium Risk cities -->
+              <div class="hotspots-risk-col">
+                <div class="hotspots-col-header medium">
+                  <i class="fa-solid fa-circle-exclamation"></i> WARNING INDEX
+                </div>
+                <div class="hotspots-cards-wrap" id="hotspotsMedium">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+              
+              <!-- Low Risk cities -->
+              <div class="hotspots-risk-col">
+                <div class="hotspots-col-header low">
+                  <i class="fa-solid fa-circle-check"></i> LOW RISK INDEX
+                </div>
+                <div class="hotspots-cards-wrap" id="hotspotsLow">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <!-- Isolation Forest anomaly alerts -->
+          <div class="glass-panel card-glow-rose" style="padding: 20px; margin-bottom: 40px;">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-circle-nodes"></i> Isolation Forest Anomaly Alerts</h3>
+            <div class="anomaly-alerts-wrapper" id="anomalyAlertsWrap">
+              <!-- Injected dynamically -->
+            </div>
+          </div>
+          
+        </div>
+        
       </section>
       {% endif %}
       
@@ -572,6 +769,7 @@
 <script src="{{ url_for('static', filename='js/api.js') }}"></script>
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/filters.js') }}"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

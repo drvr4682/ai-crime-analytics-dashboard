@@ -90,5 +90,85 @@ window.CrimeScopeAPI = {
       console.error("Error fetching correlation data:", err);
       return null;
     }
+  },
+
+  async fetchFilterOptions() {
+    try {
+      const response = await fetch("/api/filter-options");
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching filter options:", err);
+      return null;
+    }
+  },
+
+  async fetchFilteredData(year, city, crimeType) {
+    try {
+      const url = `/filter-data?year=${encodeURIComponent(year)}&city=${encodeURIComponent(city)}&crime_type=${encodeURIComponent(crimeType)}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching filtered data:", err);
+      return null;
+    }
+  },
+
+  // ── Phase 4 Upgrades: AI Command Center REST APIs ──────────────────────────
+  async fetchMLPredictions() {
+    try {
+      const response = await fetch("/api/ml/predictions");
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching ML predictions:", err);
+      return null;
+    }
+  },
+
+  async fetchMLAccuracy() {
+    try {
+      const response = await fetch("/api/ml/accuracy");
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching ML accuracy scores:", err);
+      return null;
+    }
+  },
+
+  async fetchMLHotspots() {
+    try {
+      const response = await fetch("/api/ml/hotspots");
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching KMeans hotspots:", err);
+      return null;
+    }
+  },
+
+  async fetchMLAnomalies() {
+    try {
+      const response = await fetch("/api/ml/anomalies");
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching IsolationForest anomalies:", err);
+      return null;
+    }
+  },
+
+  async predictCategory(city, month, victimAge, victimGender, weaponUsed) {
+    try {
+      const url = `/api/ml/predict-category?city=${encodeURIComponent(city)}&month=${encodeURIComponent(month)}&victim_age=${encodeURIComponent(victimAge)}&victim_gender=${encodeURIComponent(victimGender)}&weapon_used=${encodeURIComponent(weaponUsed)}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("API call failed");
+      return await response.json();
+    } catch (err) {
+      console.error("Error predicting category profile:", err);
+      return null;
+    }
   }
 };

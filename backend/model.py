@@ -71,47 +71,10 @@ def predict_future_crimes(df, graphs_dir: str, forecast_years: int = 5) -> dict:
 
     predictions = {int(y): int(c) for y, c in zip(future_years.flatten(), future_counts)}
 
-    # ── Plot ──────────────────────────────────────────────────────────────────
-    all_years_x = np.arange(yearly["Year"].min(), last_year + forecast_years + 1).reshape(-1, 1)
-    trend_y = model.predict(all_years_x)
-
-    fig, ax = plt.subplots(figsize=(11, 5))
-    fig.patch.set_facecolor(DARK_BG)
-    ax.set_facecolor(CARD_BG)
-
-    # Historical bars
-    ax.bar(yearly["Year"], y, color=ACCENT, alpha=0.55,
-           label="Historical", width=0.6, edgecolor="none")
-
-    # Trend line (full range)
-    ax.plot(all_years_x, trend_y, color=ACCENT2, linewidth=2,
-            linestyle="--", label="Linear Trend")
-
-    # Predicted points
-    ax.scatter(future_years, future_counts, color=ACCENT2,
-               s=80, zorder=5, label="Forecast")
-    for fy, fc in zip(future_years.flatten(), future_counts):
-        ax.annotate(str(fc), (fy, fc), textcoords="offset points",
-                    xytext=(0, 8), color=TEXT, fontsize=8, ha="center")
-
-    ax.set_title("Crime Trend Prediction (Linear Regression)",
-                 fontsize=14, fontweight="bold", color=ACCENT, pad=14)
-    ax.set_xlabel("Year", fontsize=10, color=TEXT)
-    ax.set_ylabel("Predicted Crime Count", fontsize=10, color=TEXT)
-    ax.tick_params(colors=TEXT, labelsize=9)
-    ax.legend(fontsize=9, facecolor=CARD_BG, labelcolor=TEXT,
-              framealpha=0.9, edgecolor=GRID)
-    ax.grid(axis="y", color=GRID, linestyle="--", linewidth=0.6, alpha=0.7)
-    for spine in ax.spines.values():
-        spine.set_edgecolor(GRID)
-
-    os.makedirs(graphs_dir, exist_ok=True)
-    graph_path = os.path.join(graphs_dir, "prediction.png")
-    fig.savefig(graph_path, bbox_inches="tight", dpi=130, facecolor=DARK_BG)
-    plt.close(fig)
-
+    # ── Return raw data arrays instead of generating PNG charts ───────────────
     return {
         "predictions": predictions,
         "r2_score": round(r2, 4),
-        "graph": "prediction.png",
+        "historical_years": [int(yr) for yr in yearly["Year"].values],
+        "historical_counts": [int(cnt) for cnt in y]
     }

@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
@@ -290,45 +292,44 @@
         <div class="charts-grid">
           
           <!-- Section: Crime Trends -->
-          {% if graphs.line %}
           <div class="chart-card glass-panel card-glow-cyan" id="trends">
             <div class="chart-header">
               <div class="chart-tag-group">
                 <span class="chart-tag-badge cyan">SYSTEM TIMELINE</span>
-                <h3>Crime Index Evolution Over Time</h3>
+                <h3>Monthly Crime Trends</h3>
               </div>
               <span class="chart-action-icon"><i class="fa-solid fa-chart-line"></i></span>
             </div>
             <div class="chart-body">
-              <img src="{{ url_for('static', filename='graphs/' ~ graphs.line) }}" alt="Crime Trend Over the Years" loading="lazy" />
+              <div class="chart-canvas-wrapper">
+                <canvas id="trendsChart"></canvas>
+              </div>
             </div>
             <div class="chart-caption">
-              <p>Linear overview of annual incident metrics. Area fill represents density peaks.</p>
+              <p>Dynamic linear representation of monthly incident metrics across the aggregated database.</p>
             </div>
           </div>
-          {% endif %}
           
-          <!-- Section: Crime Distribution (Pie) -->
-          {% if graphs.pie %}
+          <!-- Section: Crime Distribution (Pie/Doughnut) -->
           <div class="chart-card glass-panel card-glow-purple" id="types">
             <div class="chart-header">
               <div class="chart-tag-group">
                 <span class="chart-tag-badge purple">DISTRIBUTION PROFILE</span>
-                <h3>Crime Domain Categories Segment</h3>
+                <h3>Crime Type Distribution</h3>
               </div>
               <span class="chart-action-icon"><i class="fa-solid fa-chart-pie"></i></span>
             </div>
-            <div class="chart-body pie-container">
-              <img src="{{ url_for('static', filename='graphs/' ~ graphs.pie) }}" alt="Crime Domain Distribution" loading="lazy" />
+            <div class="chart-body">
+              <div class="chart-canvas-wrapper">
+                <canvas id="typesChart"></canvas>
+              </div>
             </div>
             <div class="chart-caption">
-              <p>Relative proportions of recorded offenses grouped under neural domains.</p>
+              <p>Proportional doughnut mapping separating dominant threat classes from residual infractions.</p>
             </div>
           </div>
-          {% endif %}
           
           <!-- Section: Crime Distribution (Bar) -->
-          {% if graphs.bar %}
           <div class="chart-card glass-panel card-glow-rose wide">
             <div class="chart-header">
               <div class="chart-tag-group">
@@ -338,16 +339,16 @@
               <span class="chart-action-icon"><i class="fa-solid fa-building-shield"></i></span>
             </div>
             <div class="chart-body">
-              <img src="{{ url_for('static', filename='graphs/' ~ graphs.bar) }}" alt="Top 10 Cities by Crime Count" loading="lazy" />
+              <div class="chart-canvas-wrapper">
+                <canvas id="citiesChart"></canvas>
+              </div>
             </div>
             <div class="chart-caption">
               <p>Granular incident metrics comparison across the ten highest concentration municipalities.</p>
             </div>
           </div>
-          {% endif %}
           
           <!-- Section: Heatmap -->
-          {% if graphs.heatmap %}
           <div class="chart-card glass-panel card-glow-yellow wide" id="heatmap">
             <div class="chart-header">
               <div class="chart-tag-group">
@@ -356,16 +357,16 @@
               </div>
               <span class="chart-action-icon"><i class="fa-solid fa-temperature-arrow-up"></i></span>
             </div>
-            <div class="chart-body">
-              <img src="{{ url_for('static', filename='graphs/' ~ graphs.heatmap) }}" alt="Monthly Crime Frequency by City" loading="lazy" />
+            <div class="chart-body flex-column">
+              <!-- Dynamic HTML/CSS Grid Heatmap Ingestion -->
+              <div id="heatmapGrid" class="heatmap-grid-container"></div>
             </div>
             <div class="chart-caption">
-              <p>Two-dimensional frequency mapping illustrating climate/temporal correlations by urban zone.</p>
+              <p>Two-dimensional frequency matrix illustrating climate/temporal correlations by urban zone.</p>
             </div>
           </div>
-          {% endif %}
           
-          <!-- Section: Weapon Analysis (Custom Static-Dynamic Analytics Display) -->
+          <!-- Section: Weapon Analysis (Horizontal Bar Chart) -->
           <div class="chart-card glass-panel card-glow-emerald" id="weapon">
             <div class="chart-header">
               <div class="chart-tag-group">
@@ -374,38 +375,17 @@
               </div>
               <span class="chart-action-icon"><i class="fa-solid fa-gun"></i></span>
             </div>
-            <div class="chart-body flex-body">
-              <div class="weapon-intel-display">
-                <div class="intel-radial-container">
-                  <div class="intel-stat-circle">
-                    <span class="pct-num">82%</span>
-                    <span class="pct-lbl">LETHALITY COMPONENT</span>
-                  </div>
-                </div>
-                
-                <div class="weapon-stats-list">
-                  <div class="weapon-stat-row">
-                    <span class="w-name"><i class="fa-solid fa-crosshairs icon-accent-emerald"></i> Primary Vector:</span>
-                    <span class="w-val text-glow-emerald">{{ summary.top_weapon }}</span>
-                  </div>
-                  <div class="weapon-stat-row">
-                    <span class="w-name"><i class="fa-solid fa-circle-dot text-muted"></i> Tactical Vulnerability Index:</span>
-                    <span class="w-val text-glow-cyan">CRITICAL</span>
-                  </div>
-                  <div class="weapon-stat-row">
-                    <span class="w-name"><i class="fa-solid fa-chart-simple text-muted"></i> Domestic Involvements:</span>
-                    <span class="w-val">High (40%+)</span>
-                  </div>
-                </div>
+            <div class="chart-body">
+              <div class="chart-canvas-wrapper">
+                <canvas id="weaponsChart"></canvas>
               </div>
             </div>
             <div class="chart-caption">
-              <p>Breakdown of instrumentalities used. <strong>{{ summary.top_weapon }}</strong> represents the primary physical threat factor.</p>
+              <p>Horizontal tactical threat indexes comparing raw weaponry usages mapped in the database.</p>
             </div>
           </div>
           
-          <!-- Section: Correlation (Scatter) -->
-          {% if graphs.scatter %}
+          <!-- Section: Correlation (Scatter Plot) -->
           <div class="chart-card glass-panel card-glow-cyan" id="correlation">
             <div class="chart-header">
               <div class="chart-tag-group">
@@ -415,19 +395,20 @@
               <span class="chart-action-icon"><i class="fa-solid fa-people-group"></i></span>
             </div>
             <div class="chart-body">
-              <img src="{{ url_for('static', filename='graphs/' ~ graphs.scatter) }}" alt="Victim Age vs Police Deployed" loading="lazy" />
+              <div class="chart-canvas-wrapper">
+                <canvas id="correlationChart"></canvas>
+              </div>
             </div>
             <div class="chart-caption">
-              <p>Resource deployment scatter correlation plotted against victim age indicators (sampled at random 3000 points).</p>
+              <p>Resource deployment scatter correlation plotted against victim age indicators (sampled at random 1000 points).</p>
             </div>
           </div>
-          {% endif %}
           
         </div>
       </section>
       
       <!-- ═══════════════════ STEP 5: ML PREDICTION SECTION ═══════════════════ -->
-      {% if ml and ml.graph %}
+      {% if ml %}
       <section class="prediction-section" id="predictions">
         <h2 class="section-title"><i class="fa-solid fa-brain"></i> Machine Learning Crime Inferences</h2>
         
@@ -439,7 +420,9 @@
                 <span class="pred-tag"><i class="fa-solid fa-microchip"></i> SUPERVISED LEARNING ALGORITHM</span>
                 <h3>Linear Regression Forecast Horizon</h3>
               </div>
-              <img src="{{ url_for('static', filename='graphs/' ~ ml.graph) }}" alt="ML Prediction Graph" loading="lazy" />
+              <div class="chart-canvas-wrapper">
+                <canvas id="predictionsChart"></canvas>
+              </div>
             </div>
             
             <div class="pred-data-panel">
@@ -586,6 +569,9 @@
 </div>
 
 <!-- Interaction Scripts -->
+<script src="{{ url_for('static', filename='js/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

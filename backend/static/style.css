@@ -1333,3 +1333,130 @@ body {
     justify-content: center;
   }
 }
+
+/* ════════════════════ CHART.JS CANVAS FIT & SCALING ════════════════════ */
+.chart-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  max-height: 320px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-card .chart-body {
+  padding: 20px;
+  display: block; /* Fits canvas wrapping elements */
+}
+
+/* ════════════════════ CUSTOM CSS GRID HEATMAP ════════════════════ */
+.heatmap-grid-container {
+  display: grid;
+  grid-template-columns: 90px repeat(8, 1fr);
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  background: rgba(5, 8, 17, 0.4);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+  overflow-x: auto;
+}
+
+.heatmap-header-cell {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 8px 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.heatmap-label-cell {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+  text-transform: uppercase;
+  border-right: 1px solid var(--border-glass);
+}
+
+.heatmap-cell {
+  aspect-ratio: 16/10;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  border: 1px solid transparent;
+  position: relative;
+  min-width: 44px;
+}
+
+.heatmap-cell:hover {
+  transform: translateY(-2px) scale(1.1);
+  z-index: 100;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Heatmap Grid Cell Color Tones */
+.heatmap-cell.heat-0 { background: rgba(0, 242, 254, 0.04); color: var(--text-muted); }
+.heatmap-cell.heat-1 { background: rgba(0, 242, 254, 0.12); color: rgba(0, 242, 254, 0.8); }
+.heatmap-cell.heat-2 { background: rgba(0, 242, 254, 0.22); color: rgba(0, 242, 254, 0.95); }
+.heatmap-cell.heat-3 { background: rgba(139, 92, 246, 0.35); color: #c084fc; border-color: rgba(139, 92, 246, 0.2); }
+.heatmap-cell.heat-4 { background: rgba(255, 51, 102, 0.45); color: #fda4af; border-color: rgba(255, 51, 102, 0.25); }
+.heatmap-cell.heat-5 { background: rgba(255, 51, 102, 0.65); color: #fff; font-weight: bold; border-color: rgba(255, 51, 102, 0.4); box-shadow: var(--glow-rose); }
+
+/* Custom Glass Tooltips */
+.heatmap-cell .heatmap-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(5, 8, 17, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-active);
+  color: var(--text-main);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  z-index: 500;
+  box-shadow: var(--glow-cyan);
+  transition: opacity var(--transition-fast) ease, visibility var(--transition-fast) ease;
+  pointer-events: none;
+}
+
+.heatmap-cell:hover .heatmap-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .heatmap-grid-container {
+    grid-template-columns: 70px repeat(8, 60px);
+  }
+}

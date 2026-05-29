@@ -109,6 +109,10 @@ def get_summary(df: pd.DataFrame) -> dict:
     if "Weapon Used" in df.columns:
         top_weapon = df["Weapon Used"].value_counts().idxmax()
 
+    top_crime = "N/A"
+    if "Crime Description" in df.columns:
+        top_crime = df["Crime Description"].value_counts().idxmax()
+
     open_cases = total - closed
     closure_rate = f"{(closed / total * 100):.1f}%" if total > 0 else "0%"
 
@@ -118,5 +122,6 @@ def get_summary(df: pd.DataFrame) -> dict:
         "open_cases": open_cases,
         "top_city": top_city,
         "top_weapon": top_weapon,
+        "top_crime": top_crime,
         "closure_rate": closure_rate,
     }

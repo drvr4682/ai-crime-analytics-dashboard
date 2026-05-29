@@ -26,18 +26,17 @@ from werkzeug.utils import secure_filename
 from preprocess import load_and_clean, get_summary
 from analysis   import generate_all
 from model      import predict_future_crimes
+from config     import DevelopmentConfig
 
 # ── Flask init ─────────────────────────────────────────────────────────────────
 app = Flask(__name__)
-app.secret_key = "crime-analysis-secret-2024"   # needed for session storage
+app.config.from_object(DevelopmentConfig)
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-BASE_DIR    = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UPLOAD_DIR  = os.path.join(BASE_DIR, "uploads")
-GRAPHS_DIR  = os.path.join(os.path.dirname(__file__), "static", "graphs")
-DATA_DIR    = os.path.join(BASE_DIR, "data")
-
-ALLOWED = {"csv"}
+UPLOAD_DIR  = app.config["UPLOAD_DIR"]
+GRAPHS_DIR  = app.config["GRAPHS_DIR"]
+DATA_DIR    = app.config["DATA_DIR"]
+ALLOWED     = app.config["ALLOWED_EXTENSIONS"]
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(GRAPHS_DIR, exist_ok=True)
@@ -187,9 +186,4 @@ End of Report
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    print("\n" + "="*55)
-    print("  AI-Powered Crime Data Analysis System")
-    print("  http://127.0.0.1:5000")
-    print("="*55 + "\n")
-    app.run(debug=True, port=5000)
+# The app is now run via run.py at the backend root folder.

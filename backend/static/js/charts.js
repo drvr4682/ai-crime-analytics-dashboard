@@ -364,8 +364,14 @@ window.CrimeScopeCharts = {
       return;
     }
 
-    // Configure the Grid template columns size
-    container.style.gridTemplateColumns = `90px repeat(${cities.length}, 1fr)`;
+    // Configure the Grid template columns size dynamically to prevent stretching
+    if (cities.length === 1) {
+      container.style.gridTemplateColumns = "90px 150px";
+    } else if (cities.length < 5) {
+      container.style.gridTemplateColumns = `90px repeat(${cities.length}, 150px)`;
+    } else {
+      container.style.gridTemplateColumns = `90px repeat(${cities.length}, 1fr)`;
+    }
 
     // 1. Create Top Left empty corner block
     const corner = document.createElement("div");

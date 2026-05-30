@@ -1797,12 +1797,22 @@ body {
 .hotspots-col-header.medium { color: var(--accent-yellow); }
 .hotspots-col-header.low { color: var(--accent-emerald); }
 
+.hotspots-cards-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 .hotspot-risk-card {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   transition: all var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .hotspot-risk-card:hover {
@@ -1890,6 +1900,7 @@ body {
   flex-direction: column;
   gap: 8px;
   transition: all var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .anomaly-alert-card:hover {

@@ -2163,3 +2163,26 @@ body {
     display: none;
   }
 }
+
+/* ── Export Center & Diagnostics HUD Style Upgrades ── */
+@media (max-width: 1200px) {
+  .export-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 768px) {
+  .export-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+.export-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-cyan);
+}
+@keyframes terminal-blink {
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
+}
+.blink-line {
+  animation: terminal-blink 1s step-end infinite !important;
+}

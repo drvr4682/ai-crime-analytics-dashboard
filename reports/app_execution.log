@@ -1,0 +1,96 @@
+[2026-05-30 01:19:20] INFO in app: Modular MVC Blueprint routing registration completed successfully.
+[2026-05-30 01:19:20] INFO in app: Pre-warming in-memory cache and training Scikit-Learn models...
+[2026-05-30 01:19:20] INFO in dashboard_service: Cache MISS for telemetry path. Building indexes: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:19:20] INFO in data_loader: Initiating raw dataset ingestion: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:19:20] DEBUG in data_loader: CSV read complete. Shape: (40160, 14)
+[2026-05-30 01:19:22] INFO in data_loader: Dataset cleaning completed successfully. Cleaned records: 40160
+[2026-05-30 01:19:22] INFO in ml_service: Initializing multi-model AI suite training cycles.
+[2026-05-30 01:19:26] INFO in ml_service: AI models pre-warmed and cached successfully.
+[2026-05-30 01:19:26] DEBUG in analytics_service: Calculating dashboard KPI card aggregates.
+[2026-05-30 01:19:26] INFO in app: Pre-warming cache pre-training cycles finished successfully.
+[2026-05-30 01:19:26] INFO in app: CrimeScope Intel System bootstrapped and ready.
+[2026-05-30 01:19:28] INFO in app: Modular MVC Blueprint routing registration completed successfully.
+[2026-05-30 01:19:28] INFO in app: Pre-warming in-memory cache and training Scikit-Learn models...
+[2026-05-30 01:19:28] INFO in dashboard_service: Cache MISS for telemetry path. Building indexes: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:19:28] INFO in data_loader: Initiating raw dataset ingestion: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:19:28] DEBUG in data_loader: CSV read complete. Shape: (40160, 14)
+[2026-05-30 01:19:29] INFO in data_loader: Dataset cleaning completed successfully. Cleaned records: 40160
+[2026-05-30 01:19:29] INFO in ml_service: Initializing multi-model AI suite training cycles.
+[2026-05-30 01:19:32] INFO in ml_service: AI models pre-warmed and cached successfully.
+[2026-05-30 01:19:32] DEBUG in analytics_service: Calculating dashboard KPI card aggregates.
+[2026-05-30 01:19:32] INFO in app: Pre-warming cache pre-training cycles finished successfully.
+[2026-05-30 01:19:32] INFO in app: CrimeScope Intel System bootstrapped and ready.
+[2026-05-30 01:21:21] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:21] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:21] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:21] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:21] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:21] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:32] INFO in dashboard_routes: Accessing Dataset Ingestion Gateway.
+[2026-05-30 01:21:38] INFO in dashboard_routes: File upload request received.
+[2026-05-30 01:21:38] INFO in dashboard_routes: Session using baseline Indian sample dataset.
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:21:38] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] INFO in filter_service: Filtering dataset: Year=All, City=Agra, Type=All
+[2026-05-30 01:26:50] DEBUG in filter_service: Filtered DataFrame size: 764
+[2026-05-30 01:26:50] DEBUG in analytics_service: Calculating dashboard KPI card aggregates.
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:50] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:51] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:26:51] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:53] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:53] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:53] INFO in filter_service: Filtering dataset: Year=All, City=Agra, Type=Identity Theft
+[2026-05-30 01:30:53] DEBUG in filter_service: Filtered DataFrame size: 37
+[2026-05-30 01:30:53] DEBUG in analytics_service: Calculating dashboard KPI card aggregates.
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv
+[2026-05-30 01:30:55] DEBUG in dashboard_service: Cache HIT for telemetry path: R:\PG Project\crime-data-analysis\data\crime_dataset_india.csv

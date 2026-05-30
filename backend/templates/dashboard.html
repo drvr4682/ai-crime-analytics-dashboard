@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrimeScope Intel — Cybercrime Intelligence Dashboard</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom Stylesheets (Modularized Static CSS) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}" />
+</head>
+<body class="cyber-theme">
+
+<div class="dashboard-wrapper">
+  
+  <!-- Sidebar Component Include -->
+  {% include 'components/sidebar.html' %}
+  
+  <!-- Main Content Layout -->
+  <main class="main-content">
+    
+    <!-- Top Navigation Component Include -->
+    {% include 'components/navbar.html' %}
+    
+    <div class="content-container">
+      
+      <!-- KPI Metric Cards Grid -->
+      <section class="kpi-grid" id="dashboard">
+        <!-- Total Crimes Card -->
+        <div class="kpi-card glass-panel card-glow-cyan" style="--card-theme: #00f2fe;">
+          <div class="kpi-card-header">
+            <span class="kpi-label">TOTAL CRIMES</span>
+            <span class="kpi-card-icon"><i class="fa-solid fa-skull-crossbones"></i></span>
+          </div>
+          <div class="kpi-value text-glow-cyan">{{ "{:,}".format(summary.total_cases) }}</div>
+          <div class="kpi-sub">Total database crime logs</div>
+          <div class="kpi-accent-bar"></div>
+        </div>
+        
+        <!-- Closed Cases Card -->
+        <div class="kpi-card glass-panel card-glow-emerald" style="--card-theme: #00f5c4;">
+          <div class="kpi-card-header">
+            <span class="kpi-label">RESOLVED CASES</span>
+            <span class="kpi-card-icon"><i class="fa-solid fa-folder-closed"></i></span>
+          </div>
+          <div class="kpi-value text-glow-emerald">{{ "{:,}".format(summary.closed_cases) }}</div>
+          <div class="kpi-sub">Resolution rate: {{ summary.closure_rate }}</div>
+          <div class="kpi-accent-bar"></div>
+        </div>
+        
+        <!-- Open Cases Card -->
+        <div class="kpi-card glass-panel card-glow-yellow" style="--card-theme: #ffd166;">
+          <div class="kpi-card-header">
+            <span class="kpi-label">OPEN INVESTIGATIONS</span>
+            <span class="kpi-card-icon"><i class="fa-solid fa-folder-open"></i></span>
+          </div>
+          <div class="kpi-value text-glow-yellow">{{ "{:,}".format(summary.open_cases) }}</div>
+          <div class="kpi-sub">Pending resolution index</div>
+          <div class="kpi-accent-bar"></div>
+        </div>
+        
+        <!-- Top Crime City Card -->
+        <div class="kpi-card glass-panel card-glow-rose" style="--card-theme: #ff3366;">
+          <div class="kpi-card-header">
+            <span class="kpi-label">HIGHEST DENSITY CITY</span>
+            <span class="kpi-card-icon"><i class="fa-solid fa-city"></i></span>
+          </div>
+          <div class="kpi-value city-val text-glow-rose">{{ summary.top_city }}</div>
+          <div class="kpi-sub">Urban crime epicenter</div>
+          <div class="kpi-accent-bar"></div>
+        </div>
+        
+        <!-- Most Common Crime Card -->
+        <div class="kpi-card glass-panel card-glow-purple" style="--card-theme: #8b5cf6;">
+          <div class="kpi-card-header">
+            <span class="kpi-label">PRIMARY OFFENSE</span>
+            <span class="kpi-card-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+          </div>
+          <div class="kpi-value crime-val text-glow-purple">{{ summary.top_crime }}</div>
+          <div class="kpi-sub">Dominant infraction category</div>
+          <div class="kpi-accent-bar"></div>
+        </div>
+        
+        <!-- Closure Rate Card -->
+        <div class="kpi-card glass-panel card-glow-cyan" style="--card-theme: #00f2fe;">
+          <div class="kpi-card-header">
+            <span class="kpi-label">CLOSURE PERFORMANCE</span>
+            <span class="kpi-card-icon"><i class="fa-solid fa-percent"></i></span>
+          </div>
+          <div class="kpi-value text-glow-cyan">{{ summary.closure_rate }}</div>
+          <div class="kpi-sub">Database resolution percentage</div>
+          <div class="kpi-accent-bar"></div>
+        </div>
+      </section>
+      
+      <!-- AI Synthesized Insights Panel Include -->
+      {% include 'components/insights.html' %}
+      
+      <!-- Forensic Charts Section Include -->
+      {% include 'components/charts.html' %}
+      
+      <!-- AI Prediction & Intelligence Command Center Section -->
+      {% if ml %}
+      <section class="prediction-section" id="predictions">
+        <h2 class="section-title"><i class="fa-solid fa-brain"></i> AI Prediction & Intelligence Command Center</h2>
+        
+        <div class="prediction-grid">
+          <!-- Column 1: Model Evaluation & Performance Metrics -->
+          <div class="glass-panel card-glow-cyan accuracy-panel">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-square-poll-vertical"></i> Neural Model Accuracy Matrix</h3>
+            
+            <!-- Metric 1: Linear Regression R2 -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Crime Count Forecasting (Linear Regression R²)</span>
+                <span class="metric-bar-val" id="val-lr-r2">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow cyan" id="fill-lr-r2" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <!-- Metric 2: Random Forest F1 -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Crime Category Predictor (Random Forest F1-Score)</span>
+                <span class="metric-bar-val" id="val-rf-f1">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow purple" id="fill-rf-f1" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <!-- Metric 3: KMeans Silhouette -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Hotspot Cluster Cohesion (KMeans Silhouette)</span>
+                <span class="metric-bar-val" id="val-km-sil">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow emerald" id="fill-km-sil" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <!-- Metric 4: Isolation Forest Anomaly Percentage -->
+            <div class="metric-bar-group">
+              <div class="metric-bar-header">
+                <span class="metric-bar-lbl">Incident Anomaly Rate (Isolation Forest Outliers)</span>
+                <span class="metric-bar-val" id="val-iso-rate">0.0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill-glow yellow" id="fill-iso-rate" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Column 2: Interactive Crime Predictor Form -->
+          <div class="glass-panel card-glow-purple predictor-form-panel">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-wand-magic-sparkles"></i> Dynamic Category Predictor</h3>
+            
+            <form id="aiPredictorForm">
+              <div class="form-row-2col">
+                <div class="pred-form-group">
+                  <label for="predCity">City Target</label>
+                  <select class="pred-select" id="predCity" required>
+                    <option value="" disabled selected>Select city</option>
+                  </select>
+                </div>
+                <div class="pred-form-group">
+                  <label for="predMonth">Month of Offense</label>
+                  <select class="pred-select" id="predMonth" required>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row-2col">
+                <div class="pred-form-group">
+                  <label for="predAge">Victim Age</label>
+                  <input class="pred-input" type="number" id="predAge" min="1" max="110" value="28" required />
+                </div>
+                <div class="pred-form-group">
+                  <label for="predGender">Victim Gender</label>
+                  <select class="pred-select" id="predGender" required>
+                    <option value="M">Male (M)</option>
+                    <option value="F">Female (F)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="pred-form-group" style="margin-bottom: 12px;">
+                <label for="predWeapon">Weapon Used</label>
+                <select class="pred-select" id="predWeapon" required>
+                  <option value="" disabled selected>Select weapon</option>
+                </select>
+              </div>
+              
+              <button class="btn btn-inference btn-glow" type="submit" id="inferenceBtn">
+                <i class="fa-solid fa-bolt"></i> Run AI Inference
+              </button>
+            </form>
+            
+            <div class="inference-result-box" id="inferenceResultBox" style="margin-top: 10px;">
+              <div class="inference-placeholder-msg" id="inferencePlaceholder">
+                <i class="fa-solid fa-brain fa-fade"></i>
+                <p>Input variables and trigger inference above to evaluate predictive target probability.</p>
+              </div>
+              <div class="inference-output" id="inferenceOutput" style="display:none;">
+                <h4>Predicted Offense Type</h4>
+                <div class="pred-value-highlight" id="predCrimeValue">THEFT</div>
+                <div class="metric-bar-header" style="margin-bottom: 4px;">
+                  <span class="metric-bar-lbl" style="font-size:0.68rem;">Predictive Accuracy Confidence</span>
+                  <span class="metric-bar-val" id="predConfidenceVal">0%</span>
+                </div>
+                <div class="progress-track" style="height: 5px;">
+                  <div class="progress-fill-glow purple" id="predConfidenceFill" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Row 2: Prediction Trend Forecast Chart & Hotspots Risk Matrix -->
+        <div class="prediction-card glass-panel card-glow-purple" style="margin-top: 24px;">
+          <div class="prediction-grid">
+            <div class="pred-chart-panel">
+              <div class="prediction-header">
+                <span class="pred-tag"><i class="fa-solid fa-microchip"></i> SUPERVISED LEARNING ALGORITHM</span>
+                <h3>Linear Regression Forecast Horizon</h3>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="predictionsChart"></canvas>
+              </div>
+            </div>
+            
+            <div class="pred-data-panel">
+              <div class="prediction-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Regression Algorithm</span>
+                  <span class="meta-val">Linear Regression</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Model Accuracy (R² Score)</span>
+                  <span class="meta-val text-glow-purple" id="lr-r2-meta-val">{{ ml.r2_score }}</span>
+                </div>
+                {% if ml.predictions %}
+                <div class="meta-item">
+                  <span class="meta-label">Forecast Span</span>
+                  <span class="meta-val">{{ ml.predictions|length }} Years Out</span>
+                </div>
+                {% endif %}
+              </div>
+              
+              {% if ml.predictions %}
+              <div class="pred-table-wrap">
+                <h4 class="table-headline">Index Projections</h4>
+                <table class="pred-table" id="projectionsTable">
+                  <thead>
+                    <tr>
+                      <th>Forecast Year</th>
+                      <th>Projected Incidents</th>
+                      <th>Direction Trend</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set prev = 0 %}
+                    {% for yr, cnt in ml.predictions.items() %}
+                    <tr>
+                      <td class="year-cell"><i class="fa-regular fa-clock text-muted"></i> {{ yr }}</td>
+                      <td class="count-cell text-glow-purple">{{ "{:,}".format(cnt) }}</td>
+                      <td class="trend-cell">
+                        {% if loop.first %}
+                        <span class="trend-badge stable"><i class="fa-solid fa-right-long"></i> Baseline</span>
+                        {% elif cnt > prev %}
+                        <span class="trend-badge increasing"><i class="fa-solid fa-arrow-trend-up"></i> +Increasing</span>
+                        {% elif cnt < prev %}
+                        <span class="trend-badge decreasing"><i class="fa-solid fa-arrow-trend-down"></i> -Decreasing</span>
+                        {% else %}
+                        <span class="trend-badge stable"><i class="fa-solid fa-right-long"></i> Stable</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% set prev = cnt %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Hotspots Columns (KMeans) & Threat Anomalies Alerts (Isolation Forest) -->
+        <div class="prediction-grid" style="margin-top: 24px;">
+          <!-- KMeans clustered hotspots -->
+          <div class="glass-panel card-glow-yellow hotspots-grid-section" style="padding: 20px;">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-fire"></i> Dynamic Hotspot Risk Cluster (KMeans)</h3>
+            <div class="hotspots-flex-layout" id="hotspotsLayout">
+              <div class="hotspots-risk-col">
+                <div class="hotspots-col-header high">
+                  <i class="fa-solid fa-triangle-exclamation"></i> CRITICAL INDEX
+                </div>
+                <div class="hotspots-cards-wrap" id="hotspotsHigh">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+              
+              <div class="hotspots-risk-col">
+                <div class="hotspots-col-header medium">
+                  <i class="fa-solid fa-circle-exclamation"></i> WARNING INDEX
+                </div>
+                <div class="hotspots-cards-wrap" id="hotspotsMedium">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+              
+              <div class="hotspots-risk-col">
+                <div class="hotspots-col-header low">
+                  <i class="fa-solid fa-circle-check"></i> LOW RISK INDEX
+                </div>
+                <div class="hotspots-cards-wrap" id="hotspotsLow">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Isolation Forest Anomaly alerts -->
+          <div class="glass-panel card-glow-rose" style="padding: 20px; margin-bottom: 40px;">
+            <h3 class="accuracy-headline"><i class="fa-solid fa-circle-nodes"></i> Isolation Forest Anomaly Alerts</h3>
+            <div class="anomaly-alerts-wrapper" id="anomalyAlertsWrap">
+              <!-- Injected dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      
+      <!-- Static Insights Section (For absolute backward compatibility) -->
+      <section class="insights-section" id="insights">
+        <h2 class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Neural Synthesized Insights</h2>
+        <div class="insights-grid">
+          <div class="insight-card glass-panel card-glow-rose">
+            <div class="insight-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="insight-content">
+              <h4>Urban Epicenter Alert</h4>
+              <div class="insight-metric text-glow-rose">{{ summary.top_city }}</div>
+              <p>Contains the highest concentration of active threat vectors. Security initiatives should prioritize local precincts.</p>
+            </div>
+          </div>
+          
+          <div class="insight-card glass-panel card-glow-purple">
+            <div class="insight-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <div class="insight-content">
+              <h4>Primary Threat Profile</h4>
+              <div class="insight-metric text-glow-purple">{{ summary.top_crime }}</div>
+              <p>Identified as the highest-frequency infraction. Focus training around specialized containment tactics.</p>
+            </div>
+          </div>
+          
+          <div class="insight-card glass-panel card-glow-yellow">
+            <div class="insight-icon"><i class="fa-solid fa-calendar-day"></i></div>
+            <div class="insight-content">
+              <h4>Peak Season Alert</h4>
+              <div class="insight-metric text-glow-yellow">October Spikes</div>
+              <p>Historical statistics show significant density peaks in autumn months, likely correlating with major regional festivals.</p>
+            </div>
+          </div>
+          
+          <div class="insight-card glass-panel card-glow-emerald">
+            <div class="insight-icon"><i class="fa-solid fa-square-poll-vertical"></i></div>
+            <div class="insight-content">
+              <h4>Resolution Index</h4>
+              <div class="insight-metric text-glow-emerald">{{ summary.closure_rate }}</div>
+              <p>Overall database case resolution index. Evaluates overall local system response capabilities.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Live Alerts Component Include -->
+      {% include 'components/alerts.html' %}
+      
+      <!-- Downloading reports bar -->
+      <div class="download-bar glass-panel card-glow-cyan" id="reports">
+        <div class="dl-left">
+          <h3>Generate Secure Forensic Report</h3>
+          <p>Export all model parameters, regression prediction sequences, and KPI summaries to local systems.</p>
+        </div>
+        <div class="dl-actions">
+          <a href="/download" class="btn btn-primary btn-glow"><i class="fa-solid fa-download"></i> Download Report (.txt)</a>
+          <a href="/" class="btn btn-ghost"><i class="fa-solid fa-arrow-up-from-bracket"></i> Ingest New Log CSV</a>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+</div>
+
+<!-- Interaction Scripts -->
+<script src="{{ url_for('static', filename='js/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/filters.js') }}"></script>
+<script src="{{ url_for('static', filename='js/insights.js') }}"></script>
+<script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
+</body>
+</html>

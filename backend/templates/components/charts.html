@@ -1,0 +1,120 @@
+<!-- backend/templates/components/charts.html -->
+<section class="charts-section">
+  <h2 class="section-title"><i class="fa-solid fa-circle-nodes"></i> Forensic Visual Analytics</h2>
+  <div class="charts-grid">
+    
+    <!-- Section: Monthly Crime Trends -->
+    <div class="chart-card glass-panel card-glow-cyan" id="trends">
+      <div class="chart-header">
+        <div class="chart-tag-group">
+          <span class="chart-tag-badge cyan">SYSTEM TIMELINE</span>
+          <h3>Monthly Crime Trends</h3>
+        </div>
+        <span class="chart-action-icon"><i class="fa-solid fa-chart-line"></i></span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-canvas-wrapper">
+          <canvas id="trendsChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-caption">
+        <p>Dynamic linear representation of monthly incident metrics across the aggregated database.</p>
+      </div>
+    </div>
+    
+    <!-- Section: Crime Distribution (Pie/Doughnut) -->
+    <div class="chart-card glass-panel card-glow-purple" id="types">
+      <div class="chart-header">
+        <div class="chart-tag-group">
+          <span class="chart-tag-badge purple">DISTRIBUTION PROFILE</span>
+          <h3>Crime Type Distribution</h3>
+        </div>
+        <span class="chart-action-icon"><i class="fa-solid fa-chart-pie"></i></span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-canvas-wrapper">
+          <canvas id="typesChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-caption">
+        <p>Proportional doughnut mapping separating dominant threat classes from residual infractions.</p>
+      </div>
+    </div>
+    
+    <!-- Section: Crime Distribution (Bar) -->
+    <div class="chart-card glass-panel card-glow-rose wide">
+      <div class="chart-header">
+        <div class="chart-tag-group">
+          <span class="chart-tag-badge rose">GEOLOCATION METRICS</span>
+          <h3>Epicenters — Top 10 High Density Cities</h3>
+        </div>
+        <span class="chart-action-icon"><i class="fa-solid fa-building-shield"></i></span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-canvas-wrapper">
+          <canvas id="citiesChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-caption">
+        <p>Granular incident metrics comparison across the ten highest concentration municipalities.</p>
+      </div>
+    </div>
+    
+    <!-- Section: Heatmap -->
+    <div class="chart-card glass-panel card-glow-yellow wide" id="heatmap">
+      <div class="chart-header">
+        <div class="chart-tag-group">
+          <span class="chart-tag-badge yellow">SEASONAL CORRELATION</span>
+          <h3>Heatmap Matrix — Monthly Crime Frequency by City</h3>
+        </div>
+        <span class="chart-action-icon"><i class="fa-solid fa-temperature-arrow-up"></i></span>
+      </div>
+      <div class="chart-body flex-column">
+        <!-- Dynamic HTML/CSS Grid Heatmap Ingestion -->
+        <div id="heatmapGrid" class="heatmap-grid-container"></div>
+      </div>
+      <div class="chart-caption">
+        <p>Two-dimensional frequency matrix illustrating climate/temporal correlations by urban zone.</p>
+      </div>
+    </div>
+    
+    <!-- Section: Weapon Analysis (Horizontal Bar Chart) -->
+    <div class="chart-card glass-panel card-glow-emerald" id="weapon">
+      <div class="chart-header">
+        <div class="chart-tag-group">
+          <span class="chart-tag-badge emerald">WEAPONRY INTEL</span>
+          <h3>Weaponry & Tactical Means Analysis</h3>
+        </div>
+        <span class="chart-action-icon"><i class="fa-solid fa-gun"></i></span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-canvas-wrapper">
+          <canvas id="weaponsChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-caption">
+        <p>Horizontal tactical threat indexes comparing raw weaponry usages mapped in the database.</p>
+      </div>
+    </div>
+    
+    <!-- Section: Correlation (Scatter Plot) -->
+    <div class="chart-card glass-panel card-glow-cyan" id="correlation">
+      <div class="chart-header">
+        <div class="chart-tag-group">
+          <span class="chart-tag-badge cyan">RESOURCE DYNAMICS</span>
+          <h3>Victim Demographics vs Police Deployed</h3>
+        </div>
+        <span class="chart-action-icon"><i class="fa-solid fa-people-group"></i></span>
+      </div>
+      <div class="chart-body">
+        <div class="chart-canvas-wrapper">
+          <canvas id="correlationChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-caption">
+        <p>Resource deployment scatter correlation plotted against victim age indicators (sampled at random 1000 points).</p>
+      </div>
+    </div>
+    
+  </div>
+</section>

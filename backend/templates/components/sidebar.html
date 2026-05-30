@@ -1,0 +1,59 @@
+<!-- backend/templates/components/sidebar.html -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <span class="logo-icon"><i class="fa-solid fa-shield-halved"></i></span>
+    <div class="logo-text-group">
+      <span class="logo-text">CRIMESCOPE</span>
+      <span class="logo-subtitle">INTELLIGENCE UNIT</span>
+    </div>
+  </div>
+  
+  <nav class="nav">
+    {% if not show_dashboard %}
+    <!-- Upload Mode Sidebar Links -->
+    <a href="/" class="nav-link active">
+      <span class="nav-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span> Ingest Dataset
+    </a>
+    <a href="#" class="nav-link disabled">
+      <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
+    </a>
+    {% else %}
+    <!-- Dashboard Mode Sidebar Links -->
+    <a href="#dashboard" class="nav-link active" id="nav-dashboard">
+      <span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span> Dashboard
+    </a>
+    <a href="#trends" class="nav-link" id="nav-trends">
+      <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Crime Trends
+    </a>
+    <a href="#types" class="nav-link" id="nav-types">
+      <span class="nav-icon"><i class="fa-solid fa-shapes"></i></span> Crime Types
+    </a>
+    <a href="#heatmap" class="nav-link" id="nav-heatmap">
+      <span class="nav-icon"><i class="fa-solid fa-fire"></i></span> Heatmap
+    </a>
+    <a href="#weapon" class="nav-link" id="nav-weapon">
+      <span class="nav-icon"><i class="fa-solid fa-gun"></i></span> Weapon Analysis
+    </a>
+    <a href="#predictions" class="nav-link" id="nav-predictions">
+      <span class="nav-icon"><i class="fa-solid fa-brain"></i></span> ML Prediction
+    </a>
+    <a href="#reports" class="nav-link" id="nav-reports">
+      <span class="nav-icon"><i class="fa-solid fa-file-invoice"></i></span> Reports
+    </a>
+    <a href="#alerts" class="nav-link" id="nav-alerts">
+      <span class="nav-icon"><i class="fa-solid fa-bell"></i></span> Alerts
+    </a>
+    {% endif %}
+  </nav>
+  
+  <div class="sidebar-footer">
+    <div class="system-status">
+      <span class="status-indicator online"></span>
+      <span>CORE SYSTEM ONLINE</span>
+    </div>
+    <p>AI Engine v2.4 · Secure Node</p>
+  </div>
+</aside>
+
+<!-- Overlay for Mobile Sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
